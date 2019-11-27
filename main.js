@@ -1,3 +1,9 @@
+//call functions to get the ball rolling
+fetchData();
+calorineFormListener();
+setTimeout(function() {deleteFoodListener();}, 1000);
+calculateBMRListener();
+
 let progressBarValue = 0;
 
 function fetchData() {
@@ -65,11 +71,13 @@ function postData(calories, notes) {
 }
 
 function deleteFoodListener() {
-    const foodUl = document.querySelector("#calories-list");
-    const progressBar = document.querySelector(".uk-progress");
-    foodUl.addEventListener("click", function(event) {
-        deleteItem(event.target.closest("li"));
-    });
+    let deleteButtons = document.querySelectorAll(".delete-button");
+    deleteButtons.forEach(function(btn) {
+        btn.addEventListener("click", function(event) {
+            deleteItem(event.target.closest("li"));
+            //console.log(event.target.closest("li"))
+        })
+    })
 }
 
 function deleteItem(item){
@@ -88,7 +96,6 @@ function deleteItem(item){
 }
 
 function calculateBMRListener(){
-    //let btn = document.querySelector(".uk-button")
     let bmrForm = document.querySelector("#bmr-calulator");
     let weight = document.querySelector("#weight");
     let height = document.querySelector("#height");
@@ -100,7 +107,6 @@ function calculateBMRListener(){
         event.preventDefault();
         lowerRange.innerText = lowerRangeValue(weight.value, height.value, age.value);
         upperRange.innerText = upperRangeValue(weight.value, height.value, age.value);
-        debugger;
         let maxValue = parseInt(lowerRange.innerText)+ parseInt(upperRange.innerText);
         progressBar.setAttribute("max", maxValue/2)
     })
@@ -116,8 +122,4 @@ function upperRangeValue(weight, height, age) {
     return Math.round(result)
 }
 
-//called to get everything started 
-fetchData();
-calorineFormListener();
-deleteFoodListener();
-calculateBMRListener();
+
